@@ -1,0 +1,52 @@
+<style>
+#result {
+    display: flex;
+    align-items: center;
+}
+#tube {
+    width: 50%;
+    height: 100px;
+    border: 1px solid gray;
+}
+#fibre {
+    width: 50%;
+    height: 50px;
+    border: 1px solid gray;
+    border-left: 0;
+    box-shadow: inset 10px 0px 9px -8px rgba(0,0,0,0.75);
+}
+</style>
+
+<input type="number" id="numero-fibre" placeholder="Numero de fibre" autofocus=true>
+<div id="result-text">
+</div>
+<div id="result">
+    <div id="tube">
+    </div>
+    <div id="fibre">
+    </div>
+</div>
+<script>
+var colors = ["rouge", "bleu", "vert", "jaune", "violet", "blanc"];
+var css_colors = {
+    rouge: "red",
+    bleu: "blue",
+    vert: "green",
+    jaune: "yellow",
+    violet: "purple",
+    blanc: "white"
+}
+var modulo = colors.length;
+
+document.getElementById('numero-fibre').addEventListener('change', function () {
+    var numero = this.value,
+        fibre = colors[(numero - 1) % modulo],
+        tube  = colors[Math.floor((numero - 1) / modulo) % modulo],
+        traits = Math.ceil(numero / modulo / modulo);
+
+    document.getElementById('result-text').innerHTML = 'Fibre ' + fibre + ', tube ' + tube + ' avec ' + traits + ' traits.';
+
+    document.getElementById('fibre').style.background = css_colors[fibre];
+    document.getElementById('tube').style.background = css_colors[tube];
+});
+</script>
