@@ -1,31 +1,47 @@
 <style>
 #result {
-    display: flex;
+
+    display: none;
+    flex-direction: column;
     align-items: center;
 }
 #tube {
-    width: 50%;
-    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 30vh;
     border: 1px solid gray;
 }
 #fibre {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 50%;
-    height: 50px;
+    height: 30vh;
     border: 1px solid gray;
-    border-left: 0;
-    box-shadow: inset 10px 0px 9px -8px rgba(0,0,0,0.75);
+    border-top: 0;
+    box-shadow: inset 0px 10px 9px -9px rgba(0,0,0,0.75);
+}
+#tube-text,
+#fibre-text {
+    background: white;
+    padding: 20px;
+    color: black;
+    font-size: 48pt;
 }
 </style>
 
-<input type="number" id="numero-fibre" placeholder="Numero de fibre" autofocus="true">
-<button type="button">Ok</button>
-
-<div id="result-text">
-</div>
+<form id="form">
+    <input type="number" id="numero-fibre" placeholder="Numero de fibre" autofocus="true">
+    <button type="submit">Ok</button>
+</form>
 <div id="result">
     <div id="tube">
+        <span id="tube-text"></span>
     </div>
     <div id="fibre">
+        <span id="fibre-text"></span>
     </div>
 </div>
 <script>
@@ -40,15 +56,21 @@ var css_colors = {
 }
 var modulo = colors.length;
 
+document.getElementById('form').addEventListener('submit', function(event) {
+    event.preventDefault();
+});
+
 document.getElementById('numero-fibre').addEventListener('change', function () {
     var numero = this.value,
         fibre = colors[(numero - 1) % modulo],
         tube  = colors[Math.floor((numero - 1) / modulo) % modulo],
         traits = Math.ceil(numero / modulo / modulo);
 
-    document.getElementById('result-text').innerHTML = 'Fibre ' + fibre + ', tube ' + tube + ' avec ' + traits + ' traits.';
+    document.getElementById('result').style.display = 'flex';
+    document.getElementById('fibre').style.background = 'linear-gradient(to right, '+ css_colors[fibre] +' 90%, #333333 100%)';
+    document.getElementById('tube').style.background = 'linear-gradient(to right, '+ css_colors[tube] +' 90%, #333333 100%)';
 
-    document.getElementById('fibre').style.background = css_colors[fibre];
-    document.getElementById('tube').style.background = css_colors[tube];
+    document.getElementById('tube-text').innerHTML = tube + ' (' + traits +(traits > 1 ? ' traits)' : ' trait)');
+    document.getElementById('fibre-text').innerHTML = fibre;
 });
 </script>
